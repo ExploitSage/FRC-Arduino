@@ -99,7 +99,7 @@ typedef enum { _timer1, _Nbr_16timers } timer16_Sequence_t ;
 typedef struct  {
   uint8_t nbr        :6 ;             // a pin number from 0 to 63
   uint8_t isActive   :1 ;             // true if this channel is enabled, pin not pulsed if false 
-} SpeedControllerPin_t   ;  
+} SpeedControllerPin_t;  
 
 typedef struct {
   SpeedControllerPin_t Pin;
@@ -119,11 +119,15 @@ public:
 	int read();                        // returns current pulse width as an angle between 0 and 180 degrees
 	int readMicroseconds();            // returns current pulse width in microseconds for this speedController (was read_us() in first release)
 	bool attached();                   // return true if this speedController is attached, otherwise false 
+	int _min;
+	int _max;
+	int _speed;
+	void set(int speed); //-100 to 100
+	int get();
 private:
 	uint8_t speedControllerIndex;               // index into the channel data for this speedController
 	int8_t min;                       // minimum is this value times 4 added to MIN_PULSE_WIDTH    
 	int8_t max;                       // maximum is this value times 4 added to MAX_PULSE_WIDTH   
-	uint8_t _ticks;		     //For watchdog
 };
 
 class Talon : SpeedController
@@ -132,8 +136,8 @@ public:
 	Talon();
 	uint8_t attach(int pin);
 	void set(int speed); //-100 to 100
+	int get();
 private:
-	int _value;
 };
 
 class Victor : SpeedController
@@ -142,8 +146,8 @@ public:
 	Victor();
 	uint8_t attach(int pin);
 	void set(int speed); //-100 to 100
+	int get();
 private:
-	int _value;
 };
 
 class Jaguar : SpeedController
@@ -152,8 +156,8 @@ public:
 	Jaguar();
 	uint8_t attach(int pin);
 	void set(int speed); //-100 to 100
+	int get();
 private:
-	int _value;
 };
 
 #endif

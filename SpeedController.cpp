@@ -304,10 +304,9 @@ void SpeedController::writeMicroseconds(int value)
 {
   // calculate and store the values for the given channel
   byte channel = this->speedControllerIndex;
-  speedControllers[channel].runs = 0;
   if( (channel < MAX_SERVOS) )   // ensure channel is valid
   {  
-    _ticks=0;
+    speedControllers[channel].runs = 0;
     if( value < SERVO_MIN() )          // ensure pulse width is valid
       value = SERVO_MIN();
     else if( value > SERVO_MAX() )
@@ -344,52 +343,59 @@ bool SpeedController::attached()
   return speedControllers[this->speedControllerIndex].Pin.isActive ;
 }
 
+void SpeedController::set(int speed) {
+  if(speed > 100)
+    speed = 100;
+  else if(speed < -100)
+    speed = -100;
+  else if(abs(speed) <= 5)
+    speed = 0;
+
+  _speed = speed;
+  speed = map(_speed, -100, 100, _min, _max);
+  writeMicroseconds(speed);
+}
+
+
+
 /****************** end of SpeedController functions ******************************/
   Talon::Talon() {
-
+    _min = 1000;
+    _max = 2000;
   }
   uint8_t Talon::attach(int pin) {
-    SpeedController::attach(pin, 1000,2000);
-  }
+    SpeedController::attach(pin, _min, _max);
+  } 
 
   void Talon::set(int speed) {
-    if(speed > 100)
-      speed = 100;
-    else if(speed < -100)
-      speed = -100;
-    speed = map(speed, -100, 100, 1000, 2000);
-    SpeedController::writeMicroseconds(speed);
+    SpeedController::set(speed);
+  }
+
+  int Talon::get() {
+    return _speed;
   }
 /****************** end of Victor functions ******************************/
-    Victor::Victor() {
-
+  Victor::Victor() {
+    _min = 1000;
+    _max = 2000;
   }
   uint8_t Victor::attach(int pin) {
-    SpeedController::attach(pin, 1000,2000);
+    SpeedController::attach(pin, _min, _max);
   }
 
   void Victor::set(int speed) {
-    if(speed > 100)
-      speed = 100;
-    else if(speed < -100)
-      speed = -100;
-    speed = map(speed, -100, 100, 1000, 2000);
-    SpeedController::writeMicroseconds(speed);
+    SpeedController::set(speed);
   }
 /****************** end of Victor functions ******************************/
-    Jaguar::Jaguar() {
-
+  Jaguar::Jaguar() {
+    _min = 500;
+    _max = 2500;
   }
   uint8_t Jaguar::attach(int pin) {
-    SpeedController::attach(pin, 500,2500);
+    SpeedController::attach(pin, _min, _max);
   }
 
   void Jaguar::set(int speed) {
-    if(speed > 100)
-      speed = 100;
-    else if(speed < -100)
-      speed = -100;
-    speed = map(speed, -100, 100, 500,2500);
-    SpeedController::writeMicroseconds(speed);
+    SpeedController::set(speed);
   }
 /****************** end of Jaguar functions ******************************/

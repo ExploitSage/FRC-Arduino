@@ -88,7 +88,7 @@ public:
 
 	Relay();
 	void attach(Channel channel);
-
+	void attach(uint8_t a, uint8_t b);
 	void set(Direction direction);
 	Direction get();
 	Channel get_channel();
