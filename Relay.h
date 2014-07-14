@@ -1,14 +1,14 @@
 /*
 ||
 || @description
-|| | Control an Innovation First/VEX Spike Relay
-|| | Connection: A B Gnd
+|| | Control a Relay
+|| | Connection: Pin
 || | USAGE:
-|| | Relay spike; //instance of class
-|| | spike.attach(Relay::CHANNEL#); //valid # 1-6
-|| | 	ie: spike.attach(Relay::CHANNEL2);
-|| | spike.set(Relay::DIRECTION); //valid DIRECTION OFF, FORWARD, REVERSE, ON
-|| | 	ie: spike.set(Relay::FORWARD);
+|| | Relay relay; //instance of class
+|| | relay.attach(#); //# is a digital pin
+|| | 	ie: relay.attach(8);
+|| | relay.set(Relay::DIRECTION); //valid DIRECTION OFF, ON
+|| | 	ie: relay.set(Relay::ON);
 || #
 ||
 || @author
@@ -32,8 +32,8 @@
 || #
 ||
 || @version
-|| | v1.1
-|| | 02 July 2014
+|| | v1.0
+|| | 14 July 2014
 || #
 ||
 */
@@ -49,52 +49,29 @@ private:
 	//Defines potential states for the Relay
 	class Direction {
 	private:
-		bool _a;
-		bool _b;
+		bool _state;
 	public:
 		Direction();
-		Direction(bool a, bool b);
-		bool get_a();
-		bool get_b();
+		Direction(bool state);
+		bool get_state();
 		bool compare(Direction direction);
-	};
-	//Defines potential pins for the Relay
-	class Channel {
-	private:
-		uint8_t _a;
-		uint8_t _b;
-	public:
-		Channel();
-		Channel(uint8_t a, uint8_t b);
-		uint8_t get_a();
-		uint8_t get_b();
 	};
 
 	bool _init; //confirm object properly initiated in code
 	Direction _direction; //abstract state object
-	Channel _channel; //abstract port object
+	uint8_t _pin;
 public:
-	static const Channel CHANNEL1; //2,3
-	static const Channel CHANNEL2; //4,5
-	static const Channel CHANNEL3; //6,7
-	static const Channel CHANNEL4; //8,9
-	static const Channel CHANNEL5; //10,11
-	static const Channel CHANNEL6; //12,13
 
-	static const Direction OFF; //false, false
-	static const Direction FORWARD; //true, false
-	static const Direction REVERSE; //false, true
-	static const Direction ON; //true, true
+	static const Direction OFF; //false
+	static const Direction ON; //true
 
 	Relay();
-	void attach(Channel channel);
-	void attach(uint8_t a, uint8_t b);
+	void attach(uint8_t pin);
 	void set(Direction direction);
 	Direction get();
-	Channel get_channel();
+	uint8_t get_pin();
 
 	void off();
-	void forward();
-	void reverse();
+	void on();
 };
 #endif
