@@ -67,6 +67,9 @@ void Spike::attach(Spike::Channel channel) {
 	set(Spike::OFF);
 	_init = true;
 }
+void Spike::attach(uint8_t a, uint8_t b) {
+	attach(Channel(a,b));
+}
 
 void Spike::set(Spike::Direction direction) {
 	if(_init) {

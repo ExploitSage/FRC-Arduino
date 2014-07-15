@@ -386,6 +386,10 @@ void SpeedController::set(int speed) {
   void Victor::set(int speed) {
     SpeedController::set(speed);
   }
+
+  int Victor::get() {
+    return _speed;
+  }
 /****************** end of Victor functions ******************************/
   Jaguar::Jaguar() {
     _min = 500;
@@ -398,4 +402,24 @@ void SpeedController::set(int speed) {
   void Jaguar::set(int speed) {
     SpeedController::set(speed);
   }
+
+  int Jaguar::get() {
+    return _speed;
+  }
 /****************** end of Jaguar functions ******************************/
+    Servo::Servo() {
+    _min = 600;
+    _max = 2100;
+  }
+  uint8_t Servo::attach(int pin) {
+    SpeedController::attach(pin, _min, _max);
+  }
+
+  void Servo::set(int speed) {
+    SpeedController::set(speed);
+  }
+
+  int Servo::get() {
+    return _speed;
+  }
+/****************** end of Servo functions ******************************/

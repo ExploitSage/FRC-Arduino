@@ -99,7 +99,7 @@ typedef enum { _timer1, _Nbr_16timers } timer16_Sequence_t ;
 typedef struct  {
   uint8_t nbr        :6 ;             // a pin number from 0 to 63
   uint8_t isActive   :1 ;             // true if this channel is enabled, pin not pulsed if false 
-} SpeedControllerPin_t;  
+} SpeedControllerPin_t;
 
 typedef struct {
   SpeedControllerPin_t Pin;
@@ -154,6 +154,16 @@ class Jaguar : SpeedController
 {
 public:
 	Jaguar();
+	uint8_t attach(int pin);
+	void set(int speed); //-100 to 100
+	int get();
+private:
+};
+
+class Servo : SpeedController
+{
+public:
+	Servo();
 	uint8_t attach(int pin);
 	void set(int speed); //-100 to 100
 	int get();
